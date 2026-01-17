@@ -31,16 +31,19 @@ import com.example.meritoquiz.R
 
 @Composable
 fun HomeScreen(
-    onStartQuizClick: () -> Unit = {}
+    onStartQuizClick: () -> Unit = {},
+    onGeneralKnowledgeQuizClick: () -> Unit = {}
 ) {
     HomeScreenContent(
-        onStartQuizClick = onStartQuizClick
+        onStartQuizClick = onStartQuizClick,
+        onGeneralKnowledgeQuizClick = onGeneralKnowledgeQuizClick
     )
 }
 
 @Composable
 private fun HomeScreenContent(
-    onStartQuizClick: () -> Unit
+    onStartQuizClick: () -> Unit,
+    onGeneralKnowledgeQuizClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -82,9 +85,13 @@ private fun HomeScreenContent(
             }
         }
 
-        Spacer(modifier = Modifier.height(360.dp))
+        Spacer(modifier = Modifier.height(251.dp))
 
-        CustomButton(text = "Start quiz!", onClick = onStartQuizClick)
+        CustomButton(text = "Quiz z wiedzy ogólnej", onClick = onGeneralKnowledgeQuizClick)
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        CustomButton(text = "Rozpocznij quiz WSB!", onClick = onStartQuizClick)
     }
 }
 
