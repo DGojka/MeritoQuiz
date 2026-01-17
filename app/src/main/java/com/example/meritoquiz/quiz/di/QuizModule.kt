@@ -1,20 +1,24 @@
 package com.example.meritoquiz.quiz.di
 
 import com.example.meritoquiz.quiz.data.QuestionRepositoryImpl
+import com.example.meritoquiz.quiz.data.source.LocalQuestionDataSource
+import com.example.meritoquiz.quiz.data.source.QuestionDataSource
 import com.example.meritoquiz.quiz.domain.repository.QuestionRepository
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object QuizModule {
+abstract class QuizModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideQuestionRepository(): QuestionRepository {
-        return QuestionRepositoryImpl()
-    }
+    abstract fun bindQuestionRepository(impl: QuestionRepositoryImpl): QuestionRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindQuestionDataSource(impl: LocalQuestionDataSource): QuestionDataSource
 }
