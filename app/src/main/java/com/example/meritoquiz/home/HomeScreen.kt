@@ -1,8 +1,10 @@
 package com.example.meritoquiz.home
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +18,10 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -45,6 +51,9 @@ private fun HomeScreenContent(
     onStartQuizClick: () -> Unit,
     onGeneralKnowledgeQuizClick: () -> Unit
 ) {
+    var wsbLogoClickCount by remember { mutableStateOf(0) }
+    var isGeneralKnowledgeQuizVisible by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -70,7 +79,13 @@ private fun HomeScreenContent(
             Card(
                 modifier = Modifier
                     .padding(top = 40.dp)
-                    .fillMaxWidth(0.8f),
+                    .fillMaxWidth(0.8f)
+                    .clickable {
+                        wsbLogoClickCount++
+                        if (wsbLogoClickCount >= 3) {
+                            isGeneralKnowledgeQuizVisible = true
+                        }
+                    },
                 elevation = 12.dp,
                 shape = RoundedCornerShape(25.dp)
             ) {
@@ -87,9 +102,12 @@ private fun HomeScreenContent(
 
         Spacer(modifier = Modifier.height(251.dp))
 
-        CustomButton(text = "Quiz z wiedzy ogólnej", onClick = onGeneralKnowledgeQuizClick)
-
-        Spacer(modifier = Modifier.height(24.dp))
+        AnimatedVisibility(visible = isGeneralKnowledgeQuizVisible) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                CustomButton(text = "Quiz z wiedzy ogólnej", onClick = onGeneralKnowledgeQuizClick)
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+        }
 
         CustomButton(text = "Rozpocznij quiz WSB!", onClick = onStartQuizClick)
     }
